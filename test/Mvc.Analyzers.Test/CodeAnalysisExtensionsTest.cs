@@ -458,6 +458,21 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
         }
 
         [Fact]
+        public async Task IsAssignable_ReturnsTrue_IfSourceAndDestinationAreTheSameInterface()
+        {
+            // Arrange
+            var compilation = await GetCompilation(nameof(IsAssignable_ReturnsTrueIfTypeImplementsInterface));
+            var source = compilation.GetTypeByMetadataName(typeof(IsAssignable_ReturnsTrueIfTypeImplementsInterface).FullName);
+            var target = compilation.GetTypeByMetadataName(typeof(IsAssignable_ReturnsTrueIfTypeImplementsInterface).FullName);
+
+            // Act
+            var isAssignableFrom = CodeAnalysisExtensions.IsAssignableFrom(source, target);
+
+            // Assert
+            Assert.True(isAssignableFrom);
+        }
+
+        [Fact]
         public async Task IsAssignable_ReturnsTrueIfAncestorTypeImplementsInterface()
         {
             // Arrange
