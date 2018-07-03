@@ -264,6 +264,10 @@ namespace Microsoft.Extensions.DependencyInjection
             // Dispatching
             //
             services.TryAddEnumerable(
+                ServiceDescriptor.Transient<IConfigureOptions<DispatcherOptions>, MvcCoreDispatcherOptionsSetup>());
+            services.TryAddEnumerable(
+                ServiceDescriptor.Singleton<IEndpointMatchConstraint, KnownRouteValueEndpointMatchConstraint>());
+            services.TryAddEnumerable(
                 ServiceDescriptor.Singleton<EndpointDataSource, MvcEndpointDataSource>());
             services.TryAddSingleton<MvcEndpointInvokerFactory>();
 

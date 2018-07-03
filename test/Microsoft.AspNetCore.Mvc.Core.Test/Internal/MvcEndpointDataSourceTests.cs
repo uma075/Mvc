@@ -609,7 +609,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             routeOptionsSetup.Configure(routeOptions);
 
             var constraintResolver = new DefaultInlineEndpointMatchConstraintResolver(
-                new DefaultEndpointMatchConstraintMapProvider(Options.Create(new RouteOptions())),
+                new DefaultEndpointMatchConstraintMapProvider(Options.Create(new DispatcherOptions())),
                 new List<IEndpointMatchConstraint>());
             return new MvcEndpointInfo(name, template, defaults, constraints, dataTokens, constraintResolver);
         }
