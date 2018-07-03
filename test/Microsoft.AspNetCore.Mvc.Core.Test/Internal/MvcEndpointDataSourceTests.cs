@@ -591,6 +591,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 actionDescriptorCollectionProvider,
                 mvcEndpointInvokerFactory ?? new MvcEndpointInvokerFactory(new ActionInvokerFactory(Array.Empty<IActionInvokerProvider>())),
                 actionDescriptorChangeProviders ?? Array.Empty<IActionDescriptorChangeProvider>(),
+                Mock.Of<IInlineEndpointMatchConstraintResolver>(),
                 serviceProviderMock.Object);
 
             return dataSource;
@@ -607,7 +608,9 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             var routeOptionsSetup = new MvcCoreRouteOptionsSetup();
             routeOptionsSetup.Configure(routeOptions);
 
-            var constraintResolver = new DefaultInlineConstraintResolver(Options.Create<RouteOptions>(routeOptions));
+            var constraintResolver = new DefaultInlineEndpointMatchConstraintResolver(
+                new DefaultEndpointMatchConstraintMapProvider(Options.Create(new RouteOptions())),
+                new List<IEndpointMatchConstraint>());
             return new MvcEndpointInfo(name, template, defaults, constraints, dataTokens, constraintResolver);
         }
 

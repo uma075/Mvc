@@ -23,6 +23,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
         private readonly MvcEndpointInvokerFactory _invokerFactory;
         private readonly IServiceProvider _serviceProvider;
         private readonly IActionDescriptorChangeProvider[] _actionDescriptorChangeProviders;
+        private readonly IInlineEndpointMatchConstraintResolver _inlineEndpointMatchConstraintResolver;
         private readonly List<Endpoint> _endpoints;
 
         private IChangeToken _changeToken;
@@ -31,6 +32,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             IActionDescriptorCollectionProvider actions,
             MvcEndpointInvokerFactory invokerFactory,
             IEnumerable<IActionDescriptorChangeProvider> actionDescriptorChangeProviders,
+            IInlineEndpointMatchConstraintResolver inlineEndpointMatchConstraintResolver,
             IServiceProvider serviceProvider)
         {
             if (actions == null)
@@ -57,6 +59,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             _invokerFactory = invokerFactory;
             _serviceProvider = serviceProvider;
             _actionDescriptorChangeProviders = actionDescriptorChangeProviders.ToArray();
+            _inlineEndpointMatchConstraintResolver = inlineEndpointMatchConstraintResolver;
 
             _endpoints = new List<Endpoint>();
             ConventionalEndpointInfos = new List<MvcEndpointInfo>();
@@ -112,6 +115,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                                         action,
                                         endpointInfo.Name,
                                         subTemplate,
+                                        endpointInfo.Constraints,
                                         endpointInfo.Defaults,
                                         ++conventionalRouteOrder,
                                         endpointInfo);
@@ -137,6 +141,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                                 action,
                                 endpointInfo.Name,
                                 newTemplate,
+                                endpointInfo.Constraints,
                                 endpointInfo.Defaults,
                                 ++conventionalRouteOrder,
                                 endpointInfo);
@@ -146,10 +151,14 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 }
                 else
                 {
+                    var newEndpointTemplate = TemplateParser.Parse(action.AttributeRouteInfo.Template);
+                    var constraints = GetConstraints(newEndpointTemplate, nonInlineConstraints: null);
+
                     var endpoint = CreateEndpoint(
                         action,
                         action.AttributeRouteInfo.Name,
                         action.AttributeRouteInfo.Template,
+                        constraints,
                         nonInlineDefaults: null,
                         action.AttributeRouteInfo.Order,
                         action.AttributeRouteInfo);
@@ -239,7 +248,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                     //
                     // REVIEW: This is really ugly
                     if (endpointInfo.Constraints.TryGetValue(routeKey, out var constraint)
-                        && !constraint.Match(new DefaultHttpContext() { RequestServices = _serviceProvider }, new DummyRouter(), routeKey, new RouteValueDictionary(action.RouteValues), RouteDirection.IncomingRequest))
+                        && !constraint.Match(routeKey, new RouteValueDictionary(action.RouteValues), RouteDirection.IncomingRequest))
                     {
                         // Did not match constraint
                         return false;
@@ -269,6 +278,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             ActionDescriptor action,
             string routeName,
             string template,
+            IDictionary<string, IEndpointMatchConstraint> constraints,
             object nonInlineDefaults,
             int order,
             object source)
@@ -325,6 +335,7 @@ namespace Microsoft.AspNetCore.Mvc.Internal
                 template,
                 new RouteValueDictionary(nonInlineDefaults),
                 new RouteValueDictionary(action.RouteValues),
+                constraints,
                 order,
                 metadataCollection,
                 action.DisplayName);
@@ -356,6 +367,38 @@ namespace Microsoft.AspNetCore.Mvc.Internal
             {
                 defaults[kvp.Key] = kvp.Value;
             }
+        }
+
+        private IDictionary<string, IEndpointMatchConstraint> GetConstraints(
+            RouteTemplate parsedTemplate,
+            IDictionary<string, object> nonInlineConstraints)
+        {
+            var constraintBuilder = new EndpointMatchConstraintBuilder(
+                _inlineEndpointMatchConstraintResolver,
+                parsedTemplate.TemplateText);
+
+            if (nonInlineConstraints != null)
+            {
+                foreach (var kvp in nonInlineConstraints)
+                {
+                    constraintBuilder.AddConstraint(kvp.Key, kvp.Value);
+                }
+            }
+
+            foreach (var parameter in parsedTemplate.Parameters)
+            {
+                if (parameter.IsOptional)
+                {
+                    constraintBuilder.SetOptional(parameter.Name);
+                }
+
+                foreach (var inlineConstraint in parameter.InlineConstraints)
+                {
+                    constraintBuilder.AddResolvedConstraint(parameter.Name, inlineConstraint.Constraint);
+                }
+            }
+
+            return constraintBuilder.Build();
         }
 
         private IChangeToken GetCompositeChangeToken()

@@ -115,7 +115,7 @@ namespace Microsoft.AspNetCore.Builder
                 .OfType<MvcEndpointDataSource>()
                 .First();
 
-            var constraintResolver = app.ApplicationServices.GetRequiredService<IInlineConstraintResolver>();
+            var constraintResolver = app.ApplicationServices.GetRequiredService<IInlineEndpointMatchConstraintResolver>();
 
             MvcEndpointInfoBuilder routeBuilder = new MvcEndpointInfoBuilder(constraintResolver);
 

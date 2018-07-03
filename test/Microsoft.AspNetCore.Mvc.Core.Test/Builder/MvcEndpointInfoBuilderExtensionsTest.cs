@@ -254,8 +254,6 @@ namespace Microsoft.AspNetCore.Mvc.Core.Test.Builder
 
                     var values = new RouteValueDictionary(new { area = areaName });
                     var match = kvp.Value.Match(
-                        new DefaultHttpContext(),
-                        route: new Mock<IRouter>().Object,
                         routeKey: kvp.Key,
                         values: values,
                         routeDirection: RouteDirection.UrlGeneration);
@@ -275,7 +273,7 @@ namespace Microsoft.AspNetCore.Mvc.Core.Test.Builder
 
         private MvcEndpointInfoBuilder CreateEndpointBuilder()
         {
-            var builder = new MvcEndpointInfoBuilder(Mock.Of<IInlineConstraintResolver>());
+            var builder = new MvcEndpointInfoBuilder(Mock.Of<IInlineEndpointMatchConstraintResolver>());
             return builder;
         }
     }

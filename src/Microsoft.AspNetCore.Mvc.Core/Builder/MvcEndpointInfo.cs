@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Builder
             RouteValueDictionary defaults,
             IDictionary<string, object> constraints,
             RouteValueDictionary dataTokens,
-            IInlineConstraintResolver constraintResolver)
+            IInlineEndpointMatchConstraintResolver constraintResolver)
         {
             Name = name;
             Template = template ?? string.Empty;
@@ -49,16 +49,16 @@ namespace Microsoft.AspNetCore.Builder
         // Inline and non-inline defaults merged into one
         public RouteValueDictionary MergedDefaults { get; }
 
-        public IDictionary<string, IRouteConstraint> Constraints { get; }
+        public IDictionary<string, IEndpointMatchConstraint> Constraints { get; }
         public RouteValueDictionary DataTokens { get; }
         internal RouteTemplate ParsedTemplate { get; private set; }
 
-        private static IDictionary<string, IRouteConstraint> GetConstraints(
-            IInlineConstraintResolver inlineConstraintResolver,
+        private static IDictionary<string, IEndpointMatchConstraint> GetConstraints(
+            IInlineEndpointMatchConstraintResolver inlineConstraintResolver,
             RouteTemplate parsedTemplate,
             IDictionary<string, object> constraints)
         {
-            var constraintBuilder = new RouteConstraintBuilder(inlineConstraintResolver, parsedTemplate.TemplateText);
+            var constraintBuilder = new EndpointMatchConstraintBuilder(inlineConstraintResolver, parsedTemplate.TemplateText);
 
             if (constraints != null)
             {

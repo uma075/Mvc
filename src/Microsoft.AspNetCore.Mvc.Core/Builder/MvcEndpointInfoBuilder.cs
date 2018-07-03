@@ -8,12 +8,12 @@ namespace Microsoft.AspNetCore.Builder
 {
     public class MvcEndpointInfoBuilder
     {
-        public MvcEndpointInfoBuilder(IInlineConstraintResolver constraintResolver)
+        public MvcEndpointInfoBuilder(IInlineEndpointMatchConstraintResolver constraintResolver)
         {
             ConstraintResolver = constraintResolver;
         }
 
         public List<MvcEndpointInfo> EndpointInfos { get; } = new List<MvcEndpointInfo>();
-        public IInlineConstraintResolver ConstraintResolver { get; }
+        public IInlineEndpointMatchConstraintResolver ConstraintResolver { get; }
     }
 }
