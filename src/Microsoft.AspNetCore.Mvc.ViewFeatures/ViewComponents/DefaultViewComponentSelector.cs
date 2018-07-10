@@ -97,14 +97,14 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
                     var matchedTypes = new List<string>();
                     foreach (var candidate in matches)
                     {
-                        matchedTypes.Add(Resources.FormatViewComponent_AmbiguousTypeMatch_Item(
+                        matchedTypes.Add(ViewFeatures.Resources.FormatViewComponent_AmbiguousTypeMatch_Item(
                             candidate.TypeInfo.FullName,
                             candidate.FullName));
                     }
 
                     var typeNames = string.Join(Environment.NewLine, matchedTypes);
                     throw new InvalidOperationException(
-                        Resources.FormatViewComponent_AmbiguousTypeMatch(name, Environment.NewLine, typeNames));
+                        ViewFeatures.Resources.FormatViewComponent_AmbiguousTypeMatch(name, Environment.NewLine, typeNames));
                 }
             }
         }

@@ -7,10 +7,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -38,7 +36,7 @@ namespace Microsoft.AspNetCore.Mvc
         /// Intended for subclasses that support URL generation with no route, action, or controller names.
         /// </remarks>
         protected RemoteAttribute()
-            : base(errorMessageAccessor: () => Resources.RemoteAttribute_RemoteValidationFailed)
+            : base(errorMessageAccessor: () => ViewFeatures.Resources.RemoteAttribute_RemoteValidationFailed)
         {
             RouteData = new RouteValueDictionary();
         }
@@ -215,7 +213,7 @@ namespace Microsoft.AspNetCore.Mvc
 
             if (url == null)
             {
-                throw new InvalidOperationException(Resources.RemoteAttribute_NoUrlFound);
+                throw new InvalidOperationException(ViewFeatures.Resources.RemoteAttribute_NoUrlFound);
             }
 
             return url;

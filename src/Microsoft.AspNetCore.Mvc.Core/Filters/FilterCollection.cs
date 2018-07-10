@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-using Microsoft.AspNetCore.Mvc.Core;
 
 namespace Microsoft.AspNetCore.Mvc.Filters
 {

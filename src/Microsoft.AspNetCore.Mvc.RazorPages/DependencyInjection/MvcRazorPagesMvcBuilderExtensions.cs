@@ -52,12 +52,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (string.IsNullOrEmpty(rootDirectory))
             {
-                throw new ArgumentException(Resources.ArgumentCannotBeNullOrEmpty, nameof(rootDirectory));
+                throw new ArgumentException(AspNetCore.Mvc.RazorPages.Resources.ArgumentCannotBeNullOrEmpty, nameof(rootDirectory));
             }
 
             if (rootDirectory[0] != '/')
             {
-                throw new ArgumentException(Resources.PathMustBeRootRelativePath, nameof(rootDirectory));
+                throw new ArgumentException(AspNetCore.Mvc.RazorPages.Resources.PathMustBeRootRelativePath, nameof(rootDirectory));
             }
 
             builder.Services.Configure<RazorPagesOptions>(options => options.RootDirectory = rootDirectory);

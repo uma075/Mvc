@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
 
             if (returnType == typeof(void) || returnType == typeof(Task))
             {
-                throw new InvalidOperationException(Resources.ViewComponent_MustReturnValue);
+                throw new InvalidOperationException(ViewFeatures.Resources.ViewComponent_MustReturnValue);
             }
 
             IViewComponentResult result;
@@ -176,7 +176,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
         {
             if (value == null)
             {
-                throw new InvalidOperationException(Resources.ViewComponent_MustReturnValue);
+                throw new InvalidOperationException(ViewFeatures.Resources.ViewComponent_MustReturnValue);
             }
 
             var componentResult = value as IViewComponentResult;
@@ -197,7 +197,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
                 return new HtmlContentViewComponentResult(htmlContent);
             }
 
-            throw new InvalidOperationException(Resources.FormatViewComponent_InvalidReturnValue(
+            throw new InvalidOperationException(ViewFeatures.Resources.FormatViewComponent_InvalidReturnValue(
                 typeof(string).Name,
                 typeof(IHtmlContent).Name,
                 typeof(IViewComponentResult).Name));

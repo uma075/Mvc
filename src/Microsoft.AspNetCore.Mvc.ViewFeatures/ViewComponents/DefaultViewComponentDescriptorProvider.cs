@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Microsoft.AspNetCore.Mvc.ViewComponents
 {
@@ -78,12 +77,12 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
             if (methods.Length == 0)
             {
                 throw new InvalidOperationException(
-                    Resources.FormatViewComponent_CannotFindMethod(SyncMethodName, AsyncMethodName, componentName));
+                    ViewFeatures.Resources.FormatViewComponent_CannotFindMethod(SyncMethodName, AsyncMethodName, componentName));
             }
             else if (methods.Length > 1)
             {
                 throw new InvalidOperationException(
-                    Resources.FormatViewComponent_AmbiguousMethods(componentName, AsyncMethodName, SyncMethodName));
+                    ViewFeatures.Resources.FormatViewComponent_AmbiguousMethods(componentName, AsyncMethodName, SyncMethodName));
             }
 
             var selectedMethod = methods[0];
@@ -92,7 +91,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
                 if (!selectedMethod.ReturnType.GetTypeInfo().IsGenericType ||
                     selectedMethod.ReturnType.GetGenericTypeDefinition() != typeof(Task<>))
                 {
-                    throw new InvalidOperationException(Resources.FormatViewComponent_AsyncMethod_ShouldReturnTask(
+                    throw new InvalidOperationException(ViewFeatures.Resources.FormatViewComponent_AsyncMethod_ShouldReturnTask(
                         AsyncMethodName,
                         componentName,
                         nameof(Task)));
@@ -103,13 +102,13 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
                 // Will invoke synchronously. Method must not return void, Task or Task<T>.
                 if (selectedMethod.ReturnType == typeof(void))
                 {
-                    throw new InvalidOperationException(Resources.FormatViewComponent_SyncMethod_ShouldReturnValue(
+                    throw new InvalidOperationException(ViewFeatures.Resources.FormatViewComponent_SyncMethod_ShouldReturnValue(
                         SyncMethodName,
                         componentName));
                 }
                 else if (typeof(Task).IsAssignableFrom(selectedMethod.ReturnType))
                 {
-                    throw new InvalidOperationException(Resources.FormatViewComponent_SyncMethod_CannotReturnTask(
+                    throw new InvalidOperationException(ViewFeatures.Resources.FormatViewComponent_SyncMethod_CannotReturnTask(
                         SyncMethodName,
                         componentName,
                         nameof(Task)));

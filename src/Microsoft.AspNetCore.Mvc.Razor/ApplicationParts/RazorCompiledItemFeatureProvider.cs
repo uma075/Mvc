@@ -4,10 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
-using Microsoft.AspNetCore.Razor.Hosting;
 
 namespace Microsoft.AspNetCore.Mvc.ApplicationParts
 {
@@ -29,7 +26,7 @@ namespace Microsoft.AspNetCore.Mvc.ApplicationParts
 
                     var message = string.Join(
                         Environment.NewLine,
-                        Resources.RazorViewCompiler_ViewPathsDifferOnlyInCase,
+                        Razor.Resources.RazorViewCompiler_ViewPathsDifferOnlyInCase,
                         viewsDiffereningInCase);
                     throw new InvalidOperationException(message);
                 }

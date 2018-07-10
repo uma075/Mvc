@@ -270,7 +270,7 @@ namespace Microsoft.AspNetCore.Mvc.ApplicationModels
 
             if (pageName[0] != '/' || pageName.EndsWith(".cshtml", StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException(Resources.FormatInvalidValidPageName(pageName), nameof(pageName));
+                throw new ArgumentException(RazorPages.Resources.FormatInvalidValidPageName(pageName), nameof(pageName));
             }
         }
 
@@ -284,7 +284,7 @@ namespace Microsoft.AspNetCore.Mvc.ApplicationModels
 
             if (folderPath[0] != '/')
             {
-                throw new ArgumentException(Resources.PathMustBeRootRelativePath, nameof(folderPath));
+                throw new ArgumentException(RazorPages.Resources.PathMustBeRootRelativePath, nameof(folderPath));
             }
         }
 

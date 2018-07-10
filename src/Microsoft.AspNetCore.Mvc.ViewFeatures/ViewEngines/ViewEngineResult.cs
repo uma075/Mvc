@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Microsoft.AspNetCore.Mvc.ViewEngines
 {
@@ -88,7 +87,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewEngines
                     locations += Environment.NewLine + string.Join(Environment.NewLine, SearchedLocations);
                 }
 
-                throw new InvalidOperationException(Resources.FormatViewEngine_ViewNotFound(ViewName, locations));
+                throw new InvalidOperationException(ViewFeatures.Resources.FormatViewEngine_ViewNotFound(ViewName, locations));
             }
 
             return this;

@@ -160,7 +160,7 @@ namespace Microsoft.AspNetCore.Mvc.Formatters
             // https://github.com/dotnet/corefx/blob/master/src/System.Private.Xml/src/System/Xml/Serialization/XmlSerializer.cs#L652
             catch (InvalidOperationException exception) when (exception.InnerException is FormatException || exception.InnerException is XmlException)
             {
-                throw new InputFormatterException(Resources.ErrorDeserializingInputData, exception);
+                throw new InputFormatterException(Xml.Resources.ErrorDeserializingInputData, exception);
             }
         }
 

@@ -68,7 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (string.IsNullOrEmpty(rootDirectory))
             {
-                throw new ArgumentException(Resources.ArgumentCannotBeNullOrEmpty, nameof(rootDirectory));
+                throw new ArgumentException(AspNetCore.Mvc.RazorPages.Resources.ArgumentCannotBeNullOrEmpty, nameof(rootDirectory));
             }
 
             builder.Services.Configure<RazorPagesOptions>(options => options.RootDirectory = rootDirectory);

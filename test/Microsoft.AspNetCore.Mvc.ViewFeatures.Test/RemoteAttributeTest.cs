@@ -211,8 +211,8 @@ namespace Microsoft.AspNetCore.Mvc
             var expected = "Error about 'Property1' from resources.";
             var attribute = new RemoteAttribute("Action", "Controller")
             {
-                ErrorMessageResourceName = nameof(Resources.RemoteAttribute_Error),
-                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = nameof(ViewFeatures.Test.Resources.RemoteAttribute_Error),
+                ErrorMessageResourceType = typeof(ViewFeatures.Test.Resources),
             };
 
             // Act
@@ -516,8 +516,8 @@ namespace Microsoft.AspNetCore.Mvc
             var attribute = new RemoteAttribute("Action", "Controller")
             {
                 HttpMethod = "POST",
-                ErrorMessageResourceName = nameof(Resources.RemoteAttribute_Error),
-                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = nameof(ViewFeatures.Test.Resources.RemoteAttribute_Error),
+                ErrorMessageResourceType = typeof(ViewFeatures.Test.Resources),
             };
             var url = "/Controller/Action";
             var context = GetValidationContextWithLocalizerFactory(url);

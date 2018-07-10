@@ -176,7 +176,7 @@ namespace Microsoft.AspNetCore.Mvc.Formatters
             }
             catch (SerializationException exception)
             {
-                throw new InputFormatterException(Resources.ErrorDeserializingInputData, exception);
+                throw new InputFormatterException(Xml.Resources.ErrorDeserializingInputData, exception);
             }
         }
 

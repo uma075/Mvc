@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.AspNetCore.Mvc.ViewEngines
@@ -39,7 +38,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewEngines
 
             if (ViewEngines.Count == 0)
             {
-                throw new InvalidOperationException(Resources.FormatViewEnginesAreRequired(
+                throw new InvalidOperationException(ViewFeatures.Resources.FormatViewEnginesAreRequired(
                     typeof(MvcViewOptions).FullName,
                     nameof(MvcViewOptions.ViewEngines),
                     typeof(IViewEngine).FullName));
@@ -87,7 +86,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewEngines
 
             if (ViewEngines.Count == 0)
             {
-                throw new InvalidOperationException(Resources.FormatViewEnginesAreRequired(
+                throw new InvalidOperationException(ViewFeatures.Resources.FormatViewEnginesAreRequired(
                     typeof(MvcViewOptions).FullName,
                     nameof(MvcViewOptions.ViewEngines),
                     typeof(IViewEngine).FullName));

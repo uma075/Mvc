@@ -100,7 +100,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
             var descriptor = _selector.SelectComponent(name);
             if (descriptor == null)
             {
-                throw new InvalidOperationException(Resources.FormatViewComponent_CannotFindComponent(
+                throw new InvalidOperationException(ViewFeatures.Resources.FormatViewComponent_CannotFindComponent(
                     name,
                     nameof(ViewComponentAttribute),
                     ViewComponentConventions.ViewComponentSuffix,
@@ -134,7 +134,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
                 }
             }
 
-            throw new InvalidOperationException(Resources.FormatViewComponent_CannotFindComponent(
+            throw new InvalidOperationException(ViewFeatures.Resources.FormatViewComponent_CannotFindComponent(
                 componentType.FullName,
                 nameof(ViewComponentAttribute),
                 ViewComponentConventions.ViewComponentSuffix,
@@ -171,7 +171,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewComponents
                 if (invoker == null)
                 {
                     throw new InvalidOperationException(
-                        Resources.FormatViewComponent_IViewComponentFactory_ReturnedNull(descriptor.FullName));
+                        ViewFeatures.Resources.FormatViewComponent_IViewComponentFactory_ReturnedNull(descriptor.FullName));
                 }
 
                 await invoker.InvokeAsync(context);

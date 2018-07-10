@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.AspNetCore.Mvc.ApplicationParts
